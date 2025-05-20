@@ -14,9 +14,11 @@ public class CubeSpawner : MonoBehaviour
     private float _minimalAngleOffset = 0f;
     private float _maximalAngleOffset = 360f;
     private float _splittingChancePercent = 100;
+    private int _decreaseSplitChanceFactor = 2;
     private int _decreaseScaleFactor = 2;
 
-    public event Action<List<Rigidbody>, Vector3> SpawnedCubes;
+    public event Action<List<Rigidbody>, Cube> CubeClickedWithCubesSpawn;
+    public event Action<Cube> CubeClickedWithoutSpawn;
     
     private void OnEnable()
     {
@@ -34,17 +36,17 @@ public class CubeSpawner : MonoBehaviour
         {
             DecreaseSplitChance();
             
-            Debug.Log($"Split chance: {_splittingChancePercent}");
-            
             SpawnCubes(clickedCube);
+        }
+        else
+        {
+            CubeClickedWithoutSpawn?.Invoke(clickedCube);
         }
     }
 
     private void DecreaseSplitChance()
     {
-        int decreaseFactor = 2;
-        
-        _splittingChancePercent /= decreaseFactor;
+        _splittingChancePercent /= _decreaseSplitChanceFactor;
     }
 
     private void SpawnCubes(Cube clickedCube)
@@ -64,7 +66,7 @@ public class CubeSpawner : MonoBehaviour
             spawnedCubes.Add(spawnedCube.GetComponent<Rigidbody>());
         }
         
-        SpawnedCubes?.Invoke(spawnedCubes, clickedCube.transform.position);
+        CubeClickedWithCubesSpawn?.Invoke(spawnedCubes, clickedCube);
     }
     
     private void ConfigureCubeTransform(Cube newCube, Cube clickedCube)

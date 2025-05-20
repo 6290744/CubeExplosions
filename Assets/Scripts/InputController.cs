@@ -7,6 +7,7 @@ public class InputController : MonoBehaviour
     
     private RaycastHit _hit;
     private Ray _ray;
+    private float _rayDistance = 100f;
     private Cube _clickedCube;
     private int _leftMouseButton = 0;
     
@@ -18,7 +19,7 @@ public class InputController : MonoBehaviour
         {
             _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             
-            if (Physics.Raycast(_ray, out _hit, 1000f, _layerMask))
+            if (Physics.Raycast(_ray, out _hit, _rayDistance, _layerMask))
             {
                 _clickedCube = _hit.collider.GetComponent<Cube>();
             
@@ -28,7 +29,5 @@ public class InputController : MonoBehaviour
                 }
             }
         }
-        
-        Debug.DrawRay(_ray.origin, _ray.direction * 100, Color.red);
     }
 }
