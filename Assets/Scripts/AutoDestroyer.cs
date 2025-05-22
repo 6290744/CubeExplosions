@@ -4,7 +4,7 @@ public class AutoDestroyer : MonoBehaviour
 {
     [SerializeField] private float _timeToDestroy;
     
-    void Start()
+    private void Start()
     {
         Destroy(gameObject, _timeToDestroy);
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] private LayerMask _layerMask;
     
     private RaycastHit _hit;
     private Ray _ray;
