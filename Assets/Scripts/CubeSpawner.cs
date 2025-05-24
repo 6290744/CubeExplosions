@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class CubeSpawner : MonoBehaviour
@@ -46,9 +45,13 @@ public class CubeSpawner : MonoBehaviour
 
     private void ConfigureCubeColor(Cube newCube)
     {
-        if (newCube.GetComponent<Renderer>() != null)
+        if (newCube.TryGetComponent(out Renderer renderer))
         {
-            newCube.GetComponent<Renderer>().material.color = Random.ColorHSV();
+            renderer.material.color = Random.ColorHSV();
+        }
+        else
+        {
+            throw new NullReferenceException("Doesn't have a renderer");
         }
     }
 }

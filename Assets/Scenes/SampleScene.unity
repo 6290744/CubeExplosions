@@ -576,7 +576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cubeSpawner: {fileID: 1241814056}
   _cubeExploder: {fileID: 170960881}
-  _inputController: {fileID: 938123389}
+  _cubeClickDetector: {fileID: 938123389}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +763,7 @@ GameObject:
   - component: {fileID: 938123388}
   - component: {fileID: 938123389}
   m_Layer: 0
-  m_Name: InputController
+  m_Name: CubeClickDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

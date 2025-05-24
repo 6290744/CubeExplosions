@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,14 @@ public class CubeExploder : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            targets.Add(hit.gameObject.GetComponent<Rigidbody>());
+            if (hit.TryGetComponent(out Rigidbody rigidbody))
+            {
+                targets.Add(rigidbody);
+            }
+            else
+            {
+                throw new NullReferenceException("Could not find rigidbody");
+            }
         }
 
         return targets;

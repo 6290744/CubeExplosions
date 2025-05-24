@@ -1,22 +1,23 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CubeInteractionMediator : MonoBehaviour
 {
     [SerializeField] private CubeSpawner _cubeSpawner;
     [SerializeField] private CubeExploder _cubeExploder;
-    [SerializeField] private InputController _inputController;
+    [SerializeField] private CubeClickDetector _cubeClickDetector;
 
     private void OnEnable()
     {
-        _inputController.CubeClicked += HandleCubeClick;
+        _cubeClickDetector.Clicked += HandleClick;
     }
 
     private void OnDisable()
     {
-        _inputController.CubeClicked -= HandleCubeClick;
+        _cubeClickDetector.Clicked -= HandleClick;
     }
 
-    private void HandleCubeClick(Cube cube)
+    private void HandleClick(Cube cube)
     {
         if (CanSplit(cube))
         {
