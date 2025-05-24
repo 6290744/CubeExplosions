@@ -1,40 +1,44 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private Cube _cubePrefab;
 
-    private int _minimalCubesCount = 2;
-    private int _maximalCubesCount = 6;
-    private float _minimalAngleOffset = 0f;
-    private float _maximalAngleOffset = 360f;
-    private int _decreaseScaleFactor = 2;
-
     public List<Rigidbody> SpawnCubes(Cube clickedCube)
     {
-        int cubesCount = Random.Range(_minimalCubesCount, _maximalCubesCount);
-        
-        List<Rigidbody> spawnedCubes = new List<Rigidbody>();
+        int _minimalCubesCount = 2;
+        int _maximalCubesCount = 6;
+        int cubesCount = Random.Range(_minimalCubesCount, _maximalCubesCount + 1);
 
-        for (int i = 0; i < cubesCount; i++)
+        List<Rigidbody> spawnedCubes = new List<Rigidbody>();
+        for (int i = 0;
+             i < cubesCount;
+             i++)
         {
             Cube spawnedCube = Instantiate(_cubePrefab);
-            
+
             ConfigureCubeTransform(spawnedCube, clickedCube);
-            
+
             ConfigureCubeColor(spawnedCube);
-            
-            spawnedCubes.Add(spawnedCube.GetComponent<Rigidbody>());
+
+            spawnedCubes.Add(spawnedCube.Rigidbody);
         }
-        
+
         return spawnedCubes;
     }
-    
+
     private void ConfigureCubeTransform(Cube newCube, Cube clickedCube)
     {
+        float _minimalAngleOffset = 0f;
+        float _maximalAngleOffset = 360f;
+        int _decreaseScaleFactor = 2;
+
         float angleOffset = Random.Range(_minimalAngleOffset, _maximalAngleOffset);
-        
+
         newCube.transform.localScale = clickedCube.transform.localScale / _decreaseScaleFactor;
         newCube.transform.position = clickedCube.transform.position;
         newCube.transform.rotation = Quaternion.Euler(angleOffset, angleOffset, angleOffset);

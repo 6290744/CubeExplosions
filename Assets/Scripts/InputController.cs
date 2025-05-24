@@ -4,28 +4,37 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private int _mouseButtonId;
     
-    private RaycastHit _hit;
-    private Ray _ray;
-    private float _rayDistance = 100f;
-    private Cube _clickedCube;
-    private int _leftMouseButton = 0;
+    private Camera _mainCamera;
     
     public event Action<Cube> CubeClicked;
+
+    private void Awake()
+    {
+        _mainCamera = Camera.main;
+    }
+    
+    private void OnValidate()
+    {
+        _mouseButtonId = Mathf.Clamp(_mouseButtonId, 0, 2);
+    }
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(_leftMouseButton))
+        if (Input.GetMouseButtonDown(_mouseButtonId))
         {
-            _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             
-            if (Physics.Raycast(_ray, out _hit, _rayDistance, _layerMask))
+            float rayDistance = 120;
+            
+            if (Physics.Raycast(ray, out RaycastHit hit, rayDistance, _layerMask))
             {
-                _clickedCube = _hit.collider.GetComponent<Cube>();
+                Cube clickedCube = hit.collider.GetComponent<Cube>();
             
-                if (_clickedCube!= null)
+                if (clickedCube!= null)
                 {
-                    CubeClicked?.Invoke(_clickedCube);
+                    CubeClicked?.Invoke(clickedCube);
                 }
             }
         }

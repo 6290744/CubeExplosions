@@ -6,8 +6,6 @@ public class CubeInteractionMediator : MonoBehaviour
     [SerializeField] private CubeExploder _cubeExploder;
     [SerializeField] private InputController _inputController;
 
-    private float _maximalSplitChancePercent = 100f;
-
     private void OnEnable()
     {
         _inputController.CubeClicked += HandleCubeClick;
@@ -28,11 +26,12 @@ public class CubeInteractionMediator : MonoBehaviour
         {
             _cubeExploder.ExplodeWithEffect(cube);
         }
-        
     }
 
     private bool CanSplit(Cube cube)
     {
-        return Random.Range(0, _maximalSplitChancePercent) <= cube.SplittingChancePercent;
+        float maximalSplitChancePercent = 100f;
+        
+        return Random.Range(0, maximalSplitChancePercent) <= cube.SplittingChancePercent;
     }
 }
